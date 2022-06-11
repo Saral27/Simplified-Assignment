@@ -14,7 +14,7 @@ class Tablesheet extends React.Component{
 
   async deleteId(id) {
     console.log(id);  
-      const response = await fetch('https://mockrestapi.herokuapp.com/api/employee/'+id, {method: 'DELETE'});
+      const response = await fetch('http://mockrestapi.herokuapp.com/api/employee/'+id, {method: 'DELETE'});
       if(response.ok){
         this.reRenderTable();
         console.log("Delete Successful!");
@@ -26,7 +26,7 @@ class Tablesheet extends React.Component{
 
   callAPI(){
 
-    fetch("http://mockrestapi.herokuapp.com/api/employee?pageNo=1&limit=5").then(
+    fetch("https://mockrestapi.herokuapp.com/api/employee?pageNo=1&limit=5").then(
       (response) => response.json()
     ).then((data) => {
       console.log(data)
@@ -51,7 +51,7 @@ class Tablesheet extends React.Component{
             {/* <button className="btn btn-danger">Delete</button> */}
             {/* <button onClick={deleteId(id)}>Delete</button> */}
             <button onClick={()=>this.deleteId(item._id)}type="button">Delete</button>
-            console.log(id)
+            {/* console.log(id) */}
           </td>
           <td>
             <button className="btn tn-danger">Add</button>
