@@ -5,7 +5,8 @@ class Tablesheet extends React.Component{
   constructor(props){
           super(props)
           this.state = {
-            list: []
+            list: [], pageNo:1
+            
           }
 
           this.callAPI = this.callAPI.bind(this)
@@ -14,19 +15,22 @@ class Tablesheet extends React.Component{
 
   async deleteId(id) {
     console.log(id);  
-      const response = await fetch('http://mockrestapi.herokuapp.com/api/employee/'+id, {method: 'DELETE'});
-      if(response.ok){
-        this.reRenderTable();
-        console.log("Delete Successful!");
-      }
-      else{
-        console.log("Delete Failed!");
-      }
+      const response = await fetch('https://mockrestapi.herokuapp.com/api/employee/'+id, {method: 'DELETE'});
+    }
+    
+  pageincrease(){
+    this.state.pageNo++;
+    this.callAPI()
   }
-
+  pagedecrease(){
+    if(this.state.pageNo>1){
+      this.state.pageNo--;
+      this.callAPI()
+    }
+  }
+  
   callAPI(){
-
-    fetch("https://mockrestapi.herokuapp.com/api/employee?pageNo=1&limit=5").then(
+    fetch("https://mockrestapi.herokuapp.com/api/employee?pageNo=${this.state.pageNo}&limit=5").then(
       (response) => response.json()
     ).then((data) => {
       console.log(data)
@@ -53,9 +57,9 @@ class Tablesheet extends React.Component{
             <button onClick={()=>this.deleteId(item._id)}type="button">Delete</button>
             {/* console.log(id) */}
           </td>
-          <td>
+          {/* <td>
             <button className="btn tn-danger">Add</button>
-          </td>
+          </td> */}
         </tr>
       )
     })
@@ -79,6 +83,8 @@ class Tablesheet extends React.Component{
             {tb_data}
           </tbody>
         </table>
+        <button onClick={()=>this.pagedecrease()}type="button">Prev</button>
+        <button onClick={()=>this.pageincrease()}type="button">Next</button>
       </div>
     )
   }   
